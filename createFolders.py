@@ -44,25 +44,26 @@ def create_folder(conn, folder):
     conn.commit()
     return cur.lastrowid
 
-def generateChildren(conn, parent_uid, dept, treeWidth):
+def generateChildren(conn, parent_uid, dept, treeWidth, parentId):
     if dept == 0: return
     dept = dept - 1
-    for i in range(treeWidth):
-        uid = dept + '.' + treeWidth +lower_string(5)
+    for i in range(1, treeWidth):
+        newparentId = parentId + '.' + str(i)
+        uid =  parentId +lower_string(5)
         title = lower_string(10)
         f = (uid, 1, title, parent_uid, datetime.now(), datetime.now());
         create_folder(conn, f)
-        generateChildren(conn, uid, dept, treeWidth)
+        generateChildren(conn, uid, dept, treeWidth, newparentId)
 
 def main():
     dept = 4
-    treeWidth = 10
+    treeWidth = 3
     database = "/Users/ying-jeanne/Workspace/grafana/data/grafana.db"
 
     # create a database connection
     conn = create_connection(database)
     with conn:
-        generateChildren(conn, 'general', dept-1, treeWidth)
+        generateChildren(conn, 'general', dept-1, treeWidth, '1')
 
 
 if __name__ == '__main__':
