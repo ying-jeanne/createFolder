@@ -48,15 +48,15 @@ def generateChildren(conn, parent_uid, dept, treeWidth):
     if dept == 0: return
     dept = dept - 1
     for i in range(treeWidth):
-        uid = lower_string(5)
+        uid = lower_string(10)
         title = lower_string(10)
         f = (uid, 1, title, parent_uid, datetime.now(), datetime.now());
         create_folder(conn, f)
         generateChildren(conn, uid, dept, treeWidth)
 
 def main():
-    dept = 3
-    treeWidth = 2
+    dept = 4
+    treeWidth = 100
     database = "/Users/ying-jeanne/Workspace/grafana/data/grafana.db"
 
     # create a database connection
