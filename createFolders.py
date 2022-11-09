@@ -24,7 +24,6 @@ def create_connection(db_file):
 
     return conn
 
-
 def create_folder(conn, folder):
     """
     Create a new folder into the folder table
@@ -47,17 +46,19 @@ def create_folder(conn, folder):
 def generateChildren(conn, parent_uid, dept, treeWidth, parentId):
     if dept == 0: return
     dept = dept - 1
-    for i in range(1, treeWidth):
-        newparentId = parentId + '.' + str(i)
+    for i in range(0, treeWidth):
+        newparentId = parentId + 'z' + str(i)
         uid =  parentId +lower_string(5)
+        if dept == 4: print("******** the uid is: ", uid)
         title = lower_string(10)
         f = (uid, 1, title, parent_uid, datetime.now(), datetime.now());
         create_folder(conn, f)
         generateChildren(conn, uid, dept, treeWidth, newparentId)
 
 def main():
-    dept = 4
-    treeWidth = 3
+    dept = 5
+    
+    treeWidth = 20
     database = "/Users/ying-jeanne/Workspace/grafana/data/grafana.db"
 
     # create a database connection
